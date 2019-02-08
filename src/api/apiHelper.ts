@@ -23,7 +23,8 @@ export const getAll = (router: express.Router, url: string, model: typeof Model)
  */
 export const getOne = (router: express.Router, url: string, model: typeof Model) => {
   router.get(`${url}/:id`, async (req, res) => {
-    const id = req.query.id;
+    const id = parseInt(req.params.id, 10);
+
     if (!id || !Number.isInteger(id)) {
       throw new BadRequestError(`Invalid ${model.name} id!`);
     }
@@ -33,6 +34,6 @@ export const getOne = (router: express.Router, url: string, model: typeof Model)
       throw new NotFoundError(`No such ${model.name}!`);
     }
 
-    return result;
+    res.send(result);
   });
 };

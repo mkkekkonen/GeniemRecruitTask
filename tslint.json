@@ -1,0 +1,12 @@
+{
+  "extends": ["tslint-config-airbnb"],
+  "rules": {
+    "semicolon": [true, "always"],
+    "member-ordering": [true, "fields-first"],
+    "space-before-function-paren": [true, { "asyncArrow": "always" }],
+    "max-line-length": [true, {"limit": 120, "ignore-pattern": "^import|^export|^\\s*@inject.*"}],
+    "no-consecutive-blank-lines": [true, 2],
+    "variable-name": [false], // should enforce,
+    "import-name": [false]
+  }
+}

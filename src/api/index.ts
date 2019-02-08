@@ -1,7 +1,7 @@
 import * as express from 'express';
-import User from './models/User';
-import Todo from './models/Todo';
-import { BadRequestError, NotFoundError } from './Errors';
+import User from '../models/User';
+import Todo from '../models/Todo';
+import { BadRequestError, NotFoundError } from '../Errors';
 
 export default (router: express.Router) => {
   router.get('/users', async (req, res) => {

@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as apiHelper from '../apiHelper';
-import User from '../../models/User';
 import * as passwordUtils from '../../accounts/password';
-import { ConflictError } from '../../Errors';
+import * as jwtUtils from '../../accounts/jwt';
+import User from '../../models/User';
+import { ConflictError, NotFoundError, UnauthorizedError } from '../../Errors';
 
 const checkIfUserExists = async (username: string): Promise<boolean> => {
   const queryResult = await User.query().where({ username });
@@ -42,6 +43,26 @@ export default class UserApi {
 
       const result = addUser(username, name, lastName, password);
       res.send(result);
+    });
+
+    router.post('/users/login', async (req, res) => {
+      const username = req.body.username;
+      const password = req.body.password;
+
+      const user = await User.query().where({ username }).first();
+      if (!user) {
+        throw new NotFoundError('No such user!');
+      }
+
+      const passwordsMatch = await passwordUtils.comparePassword(password, user.passwordHash);
+
+      if (!passwordsMatch) {
+        throw new UnauthorizedError('Invalid password!');
+      }
+
+      const token = jwtUtils.issueToken(username);
+
+      res.send({ token });
     });
   }
 }

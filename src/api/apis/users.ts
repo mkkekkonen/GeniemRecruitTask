@@ -4,6 +4,7 @@ import * as passwordUtils from '../../accounts/password';
 import * as jwtUtils from '../../accounts/jwt';
 import User from '../../models/User';
 import { ConflictError, NotFoundError, UnauthorizedError } from '../../Errors';
+import * as constants from '../../constants';
 
 const checkIfUserExists = async (username: string): Promise<boolean> => {
   const queryResult = await User.query().where({ username });
